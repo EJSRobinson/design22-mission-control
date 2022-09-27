@@ -31,16 +31,42 @@ function App() {
     setValue(value + 1);
   }
 
+  const long = -8.0114;
+  const lat = 39.2577;
+  const rr = 1.1;
+  const alt = chartData;
+  const vel = chartData;
+  const acc = chartData;
+
   return (
     <div>
       <Box>
         <Grid container spacing={0}>
           <Grid item xs={2}>
-            <Box sx={{ mt: 15 }}>
+            <Box sx={{ mt: 9 }}>
               <Metric
-                value={Math.round(chartData[chartData.length - 1].value)}
+                value={Math.round(alt[alt.length - 1].value)}
+                unit='m'
+                key={`k_${alt.length}`}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={10}>
+            <PackedLine
+              yunit={'Altiude (m)'}
+              xunit={'Time (s)'}
+              data={alt}
+              key={`pc_${alt.length}`}
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={0}>
+          <Grid item xs={2}>
+            <Box sx={{ mt: 9 }}>
+              <Metric
+                value={Math.round(vel[vel.length - 1].value)}
                 unit='m/s'
-                key={`k_${chartData.length}`}
+                key={`k_${vel.length}`}
               />
             </Box>
           </Grid>
@@ -48,8 +74,27 @@ function App() {
             <PackedLine
               yunit={'Velocity (m/s)'}
               xunit={'Time (s)'}
-              data={chartData}
-              key={`pc_${chartData.length}`}
+              data={vel}
+              key={`pc_${vel.length}`}
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={0}>
+          <Grid item xs={2}>
+            <Box sx={{ mt: 9 }}>
+              <Metric
+                value={Math.round(acc[acc.length - 1].value)}
+                unit='m/s/s'
+                key={`k_${acc.length}`}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={10}>
+            <PackedLine
+              yunit={'Acceleration (m/s/s)'}
+              xunit={'Time (s)'}
+              data={acc}
+              key={`pc_${acc.length}`}
             />
           </Grid>
         </Grid>
@@ -61,6 +106,9 @@ function App() {
       >
         Add Data Point
       </Button>
+      <Metric value={long} unit='° Long' />
+      <Metric value={lat} unit='° Lat' />
+      <Metric value={rr} unit='rev/s (Roll)' />
     </div>
   );
 }
