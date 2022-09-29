@@ -35,13 +35,22 @@ function checkStart() {
 }
 
 function checkEnd() {
-  if (transActive.length === expected) {
+  if (transData.length === expected) {
     console.log('Transmission Finished');
     transActive = false;
     if ([transData[transData.length - 2], transData[transData.length - 1]] === endMarker) {
+      cleanResult();
       populateTelemetry();
     }
   }
+}
+
+function cleanResult() {
+  let tempResult = [];
+  for (let i = 0; i < transData.length - 2; i++) {
+    tempResult.push(transData[i]);
+  }
+  transData = tempResult;
 }
 
 function populateTelemetry() {
