@@ -40,11 +40,7 @@ function to_Float(data) {
 }
 
 function to_int(data) {
-  console.log(data);
   let result = data[1] * 2 ** 8 + data[0];
-  if (data[1] === 0) {
-    result = result - 1;
-  }
   return result;
 }
 
