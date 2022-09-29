@@ -10,7 +10,8 @@ let checkBuffer = [0, 0];
 const endMarker = [0x3d, 0x3d];
 const startMarker = [0x3c, 0x3c];
 let transActive = false;
-const expected = 12 - 6;
+const sendLength = 16;
+const expected = sendLength - 6;
 let transData = [];
 let transStartTime = 0;
 
