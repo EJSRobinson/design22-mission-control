@@ -7,10 +7,10 @@ const serial = new Serial({
 });
 
 let checkBuffer = [0, 0];
-let endMarker = [13, 13];
-let startMarker = [0x2c, 0x2c];
+let endMarker = [0x3d, 0x3d];
+let startMarker = [0x3c, 0x3c];
 let transActive = false;
-const expected = 6;
+const expected = 58;
 let transData = [];
 
 function updateCheckBuffer(val) {
@@ -21,11 +21,13 @@ function updateCheckBuffer(val) {
 function checkStart() {
   if (checkBuffer === startMarker) {
     transActive = true;
+    console.log('Transmission started');
   }
 }
 
 function checkEnd() {
   if (transActive.length === expected) {
+    console.log('Transmission Finished');
     transActive = false;
     if ([transData[transData.length - 2], transData[transData.length - 1]] === endMarker) {
       populateTelemetry();
@@ -35,22 +37,18 @@ function checkEnd() {
 
 function populateTelemetry() {
   // Convert buffer into data structure
+  console.log(transData);
 }
 
 serial.open(() => {
   serial.on('data', (data) => {
-    // console.log('-----Receiving-----');
-    // console.log(`Data Length: ${data.length}`);
-    // console.log('RAW:');
-    // console.log(data);
-    // console.log('----END----');
-    // console.log(' ');
     for (let i = 0; i < data.length; i++) {
       updateCheckBuffer(data[i]);
       if (!transActive) {
         checkStart();
       } else {
         transData.push(data[i]);
+        console.log(`Data Length: ${transData.length}`);
         checkEnd();
       }
     }
