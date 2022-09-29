@@ -10,7 +10,7 @@ let checkBuffer = [0, 0];
 let endMarker = [0x3d, 0x3d];
 let startMarker = [0x3c, 0x3c];
 let transActive = false;
-const expected = 58;
+const expected = 12 - 6;
 let transData = [];
 
 function updateCheckBuffer(val) {
