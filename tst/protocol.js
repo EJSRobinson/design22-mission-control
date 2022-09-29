@@ -13,13 +13,22 @@ let transActive = false;
 const expected = 12 - 6;
 let transData = [];
 
+function arraysEqual(a, b) {
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function updateCheckBuffer(val) {
   checkBuffer[0] = checkBuffer[1];
   checkBuffer[1] = val;
 }
 
 function checkStart() {
-  if (checkBuffer === startMarker) {
+  if (arraysEqual(checkBuffer, startMarker)) {
     transActive = true;
     console.log('Transmission started');
   }
