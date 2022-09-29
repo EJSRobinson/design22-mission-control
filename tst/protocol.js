@@ -7,11 +7,26 @@ const serial = new Serial({
 });
 
 let checkBuffer = [0, 0];
-let endMarker = [0x3d, 0x3d];
-let startMarker = [0x3c, 0x3c];
+const endMarker = [0x3d, 0x3d];
+const startMarker = [0x3c, 0x3c];
 let transActive = false;
 const expected = 12 - 6;
 let transData = [];
+
+function to_Float(data) {
+  // Create a buffer
+  var buf = new ArrayBuffer(4);
+  // Create a data view of it
+  var view = new DataView(buf);
+
+  // set bytes
+  data.forEach(function (b, i) {
+    view.setUint8(i, b);
+  });
+  var num = view.getFloat32(0);
+  // Done
+  return num;
+}
 
 function arraysEqual(a, b) {
   for (let i = 0; i < a.length; i++) {
@@ -43,6 +58,9 @@ function checkEnd() {
     ) {
       cleanResult();
       populateTelemetry();
+    } else {
+      console.log('Transmission Error');
+      transData = [];
     }
   }
 }
@@ -58,6 +76,7 @@ function cleanResult() {
 function populateTelemetry() {
   // Convert buffer into data structure
   console.log(transData);
+  console.log(to_Float(transData));
   transData = [];
 }
 
