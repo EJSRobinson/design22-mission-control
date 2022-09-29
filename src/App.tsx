@@ -40,75 +40,83 @@ function App() {
 
   return (
     <div>
-      <Box>
-        <Grid container spacing={0}>
-          <Grid item xs={2}>
-            <Box sx={{ mt: 9 }}>
-              <Metric
-                value={Math.round(alt[alt.length - 1].value)}
-                unit='m'
-                key={`k_${alt.length}`}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={10}>
-            <PackedLine
-              yunit={'Altiude (m)'}
-              xunit={'Time (s)'}
-              data={alt}
-              key={`pc_${alt.length}`}
-            />
-          </Grid>
+      <Grid container spacing={10}>
+        <Grid item xs={6}>
+          <Box>
+            <Grid container spacing={0}>
+              <Grid item xs={2}>
+                <Box sx={{ mt: 9 }}>
+                  <Metric
+                    value={Math.round(alt[alt.length - 1].value)}
+                    unit='m'
+                    key={`k_${alt.length}`}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={10}>
+                <PackedLine
+                  yunit={'Altiude (m)'}
+                  xunit={'Time (s)'}
+                  data={alt}
+                  key={`pc_${alt.length}`}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={0}>
+              <Grid item xs={2}>
+                <Box sx={{ mt: 9 }}>
+                  <Metric
+                    value={Math.round(vel[vel.length - 1].value)}
+                    unit='m/s'
+                    key={`k_${vel.length}`}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={10}>
+                <PackedLine
+                  yunit={'Velocity (m/s)'}
+                  xunit={'Time (s)'}
+                  data={vel}
+                  key={`pc_${vel.length}`}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={0}>
+              <Grid item xs={2}>
+                <Box sx={{ mt: 9 }}>
+                  <Metric
+                    value={Math.round(acc[acc.length - 1].value)}
+                    unit='m/s/s'
+                    key={`k_${acc.length}`}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={10}>
+                <PackedLine
+                  yunit={'Acceleration (m/s/s)'}
+                  xunit={'Time (s)'}
+                  data={acc}
+                  key={`pc_${acc.length}`}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Button
+            onClick={() => {
+              addNew();
+            }}
+          >
+            Add Data Point
+          </Button>
         </Grid>
-        <Grid container spacing={0}>
-          <Grid item xs={2}>
-            <Box sx={{ mt: 9 }}>
-              <Metric
-                value={Math.round(vel[vel.length - 1].value)}
-                unit='m/s'
-                key={`k_${vel.length}`}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={10}>
-            <PackedLine
-              yunit={'Velocity (m/s)'}
-              xunit={'Time (s)'}
-              data={vel}
-              key={`pc_${vel.length}`}
-            />
-          </Grid>
+        <Grid item xs={6}>
+          <Box>
+            <Metric value={lat} unit='° Lat' />
+            <Metric value={long} unit='° Long' />
+          </Box>
+          <Metric value={rr} unit='rev/s (Roll)' />
         </Grid>
-        <Grid container spacing={0}>
-          <Grid item xs={2}>
-            <Box sx={{ mt: 9 }}>
-              <Metric
-                value={Math.round(acc[acc.length - 1].value)}
-                unit='m/s/s'
-                key={`k_${acc.length}`}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={10}>
-            <PackedLine
-              yunit={'Acceleration (m/s/s)'}
-              xunit={'Time (s)'}
-              data={acc}
-              key={`pc_${acc.length}`}
-            />
-          </Grid>
-        </Grid>
-      </Box>
-      <Button
-        onClick={() => {
-          addNew();
-        }}
-      >
-        Add Data Point
-      </Button>
-      <Metric value={long} unit='° Long' />
-      <Metric value={lat} unit='° Lat' />
-      <Metric value={rr} unit='rev/s (Roll)' />
+      </Grid>
     </div>
   );
 }

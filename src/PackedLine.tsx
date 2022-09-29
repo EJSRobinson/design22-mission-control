@@ -24,7 +24,7 @@ export default function PackedLine(props: PackedLineProps) {
   console.log(data.length);
   return (
     <>
-      <ResponsiveContainer width={800} height={200} key={`rc_${data.length}`}>
+      <ResponsiveContainer width={600} height={200} key={`rc_${data.length}`}>
         <LineChart
           data={data}
           margin={{
