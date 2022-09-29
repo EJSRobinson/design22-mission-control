@@ -74,7 +74,8 @@ function cleanResult() {
 function populateTelemetry() {
   // Convert buffer into data structure
   console.log(transData);
-  // console.log(to_Float(transData));
+  console.log(to_Float(transData.slice(0, 4)));
+  console.log(to_Float(transData.slice(4, 8)));
   transData = [];
 }
 
