@@ -12,19 +12,15 @@ const startMarker = [0x3c, 0x3c];
 let transActive = false;
 const expected = 12 - 6;
 let transData = [];
+let transStartTime = 0;
 
 function to_Float(data) {
-  // Create a buffer
   var buf = new ArrayBuffer(4);
-  // Create a data view of it
   var view = new DataView(buf);
-
-  // set bytes
   data.reverse().forEach(function (b, i) {
     view.setUint8(i, b);
   });
   var num = view.getFloat32(0);
-  // Done
   return num;
 }
 
@@ -44,6 +40,7 @@ function updateCheckBuffer(val) {
 
 function checkStart() {
   if (arraysEqual(checkBuffer, startMarker)) {
+    transStartTime = Date.now();
     transActive = true;
     console.log('Transmission started');
   }
@@ -51,7 +48,7 @@ function checkStart() {
 
 function checkEnd() {
   if (transData.length === expected) {
-    console.log('Transmission Finished');
+    console.log(`Transmission Finished in ${Date.now() - transStartTime}ms`);
     transActive = false;
     if (
       arraysEqual([transData[transData.length - 2], transData[transData.length - 1]], endMarker)
@@ -76,7 +73,7 @@ function cleanResult() {
 function populateTelemetry() {
   // Convert buffer into data structure
   console.log(transData);
-  console.log(to_Float(transData));
+  // console.log(to_Float(transData));
   transData = [];
 }
 
@@ -88,7 +85,6 @@ serial.open(() => {
         checkStart();
       } else {
         transData.push(data[i]);
-        console.log(`Data Length: ${transData.length}`);
         checkEnd();
       }
     }
