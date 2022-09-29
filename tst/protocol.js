@@ -15,6 +15,20 @@ const expected = sendLength - 6;
 let transData = [];
 let transStartTime = 0;
 
+const telemetryBase = {
+  flight_state: 0, //int
+  altitude: 0, //float
+  velocity: 0, //float
+  linear_acceleration: 0, //float
+  angular_velocity: 0, //float
+  temperature: 0, //int
+  pitch: 0, //int
+  roll: 0, //int
+  yaw: 0, //int
+};
+
+let telemetry = JSON.parse(JSON.stringify(telemetryBase));
+
 function to_Float(data) {
   var buf = new ArrayBuffer(4);
   var view = new DataView(buf);
@@ -23,6 +37,10 @@ function to_Float(data) {
   });
   var num = view.getFloat32(0);
   return num;
+}
+
+function to_int(data) {
+  return 2 ** data[0] + data[1];
 }
 
 function arraysEqual(a, b) {
@@ -73,10 +91,21 @@ function cleanResult() {
 
 function populateTelemetry() {
   // Convert buffer into data structure
+
+  telemetry.flight_state = to_int(transData.slice(0, 2));
+  telemetry.altitude = to_Float(transData.slice(2, 6));
+  telemetry.velocity = to_Float(transData.slice(6, 10));
+  telemetry.linear_acceleration = to_Float(transData.slice(10, 14));
+  telemetry.angular_velocity = to_Float(transData.slice(14, 18));
+  telemetry.temperature = to_int(transData.slice(18, 20));
+  telemetry.pitch = to_int(transData.slice(20, 22));
+  telemetry.roll = to_int(transData.slice(22, 24));
+  telemetry.yaw = to_int(transData.slice(24, 26));
+
   console.log(transData);
-  console.log(to_Float(transData.slice(0, 4)));
-  console.log(to_Float(transData.slice(4, 8)));
+  console.log(telemetry);
   transData = [];
+  telemetry = JSON.parse(JSON.stringify(telemetryBase));
 }
 
 serial.open(() => {
