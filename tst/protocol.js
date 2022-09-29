@@ -1,5 +1,4 @@
-const raspi = require('raspi');
-const Serial = require('raspi-serial').Serial;
+import { Serial } from 'raspi-serial';
 
 const serial = new Serial({
   baudRate: 9600,
