@@ -40,7 +40,7 @@ function to_Float(data) {
 }
 
 function to_int(data) {
-  return 2 ** data[0] + data[1];
+  return 2 ** data[1] + data[0];
 }
 
 function arraysEqual(a, b) {
