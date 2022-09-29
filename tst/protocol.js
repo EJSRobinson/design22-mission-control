@@ -24,9 +24,15 @@ const telemetryBase = {
   pitch: 0, //int
   roll: 0, //int
   yaw: 0, //int
+  gps: '', //string
 };
 
 let telemetry = JSON.parse(JSON.stringify(telemetryBase));
+
+function to_string(data) {
+  let utf8Encode = new TextEncoder();
+  return utf8Encode.decode(data);
+}
 
 function to_Float(data) {
   var buf = new ArrayBuffer(4);
@@ -101,6 +107,7 @@ function populateTelemetry() {
   telemetry.pitch = to_int(transData.slice(20, 22));
   telemetry.roll = to_int(transData.slice(22, 24));
   telemetry.yaw = to_int(transData.slice(24, 26));
+  telemetry.gps = to_string(transData.slice(26, 36));
   console.log(telemetry);
   transData = [];
   telemetry = JSON.parse(JSON.stringify(telemetryBase));
