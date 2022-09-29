@@ -37,15 +37,17 @@ function App() {
   const alt = chartData;
   const vel = chartData;
   const acc = chartData;
+  const temp = 21;
+  const state = 0;
 
   return (
-    <div>
-      <Grid container spacing={10}>
-        <Grid item xs={6}>
+    <Box width={1400}>
+      <Grid container spacing={0} justifySelf='left'>
+        <Grid item xs={9}>
           <Box>
             <Grid container spacing={0}>
               <Grid item xs={2}>
-                <Box sx={{ mt: 9 }}>
+                <Box sx={{ mt: 8 }}>
                   <Metric
                     value={Math.round(alt[alt.length - 1].value)}
                     unit='m'
@@ -64,7 +66,7 @@ function App() {
             </Grid>
             <Grid container spacing={0}>
               <Grid item xs={2}>
-                <Box sx={{ mt: 9 }}>
+                <Box sx={{ mt: 8 }}>
                   <Metric
                     value={Math.round(vel[vel.length - 1].value)}
                     unit='m/s'
@@ -83,7 +85,7 @@ function App() {
             </Grid>
             <Grid container spacing={0}>
               <Grid item xs={2}>
-                <Box sx={{ mt: 9 }}>
+                <Box sx={{ mt: 8 }}>
                   <Metric
                     value={Math.round(acc[acc.length - 1].value)}
                     unit='m/s/s'
@@ -109,15 +111,17 @@ function App() {
             Add Data Point
           </Button>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
+          <Metric value={state} unit='' />
           <Box>
             <Metric value={lat} unit='° Lat' />
             <Metric value={long} unit='° Long' />
           </Box>
           <Metric value={rr} unit='rev/s (Roll)' />
+          <Metric value={temp} unit='°C' />
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 }
 
