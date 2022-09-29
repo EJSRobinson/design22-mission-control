@@ -40,6 +40,7 @@ function to_Float(data) {
 }
 
 function to_int(data) {
+  console.log(data);
   let result = 2 ** data[1] + data[0];
   if (data[1] === 0) {
     result = result - 1;
@@ -105,8 +106,6 @@ function populateTelemetry() {
   telemetry.pitch = to_int(transData.slice(20, 22));
   telemetry.roll = to_int(transData.slice(22, 24));
   telemetry.yaw = to_int(transData.slice(24, 26));
-
-  console.log(transData);
   console.log(telemetry);
   transData = [];
   telemetry = JSON.parse(JSON.stringify(telemetryBase));
