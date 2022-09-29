@@ -38,7 +38,9 @@ function checkEnd() {
   if (transData.length === expected) {
     console.log('Transmission Finished');
     transActive = false;
-    if ([transData[transData.length - 2], transData[transData.length - 1]] === endMarker) {
+    if (
+      arraysEqual([transData[transData.length - 2], transData[transData.length - 1]], endMarker)
+    ) {
       cleanResult();
       populateTelemetry();
     }
@@ -56,6 +58,7 @@ function cleanResult() {
 function populateTelemetry() {
   // Convert buffer into data structure
   console.log(transData);
+  transData = [];
 }
 
 serial.open(() => {
