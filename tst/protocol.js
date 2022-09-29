@@ -20,7 +20,7 @@ function to_Float(data) {
   var view = new DataView(buf);
 
   // set bytes
-  data.forEach(function (b, i) {
+  data.reverse().forEach(function (b, i) {
     view.setUint8(i, b);
   });
   var num = view.getFloat32(0);
