@@ -14,12 +14,12 @@ type props = {
 export default function MetricLinePair(props: props) {
   const { series, seriesName, seriesUnit } = props;
   return (
-    <Box sx={{ border: 1, borderRadius: 1, borderColor: '#BBB' }}>
+    <Box sx={{ m: 1, border: 1, borderRadius: 1, borderColor: '#BBB' }}>
       <Box display='flex' justifyContent='center' sx={{ p: 1, mb: 1, mt: 1, fontSize: 30 }}>
         {seriesName}
       </Box>
       <Grid container spacing={2}>
-        <Grid item xs={3.5}>
+        <Grid item xs={3}>
           <Box sx={{ mt: 7 }}>
             <Metric
               value={Math.round(series[series.length - 1].value)}
@@ -28,7 +28,7 @@ export default function MetricLinePair(props: props) {
             />
           </Box>
         </Grid>
-        <Grid item xs={6.5}>
+        <Grid item xs={9}>
           <PackedLine
             yunit={`${seriesName} (${seriesUnit})`}
             xunit={'Time (s)'}

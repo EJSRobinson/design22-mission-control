@@ -46,6 +46,8 @@ function App() {
       <Grid container spacing={0} justifySelf='left'>
         <Grid item xs={9}>
           <MetricLinePair series={alt} seriesName={'Altitude'} seriesUnit={'m'} />
+          <MetricLinePair series={vel} seriesName={'Velocity'} seriesUnit={'m/s'} />
+          <MetricLinePair series={acc} seriesName={'Acceleration'} seriesUnit={'m/s/s'} />
           <Button
             onClick={() => {
               addNew();
