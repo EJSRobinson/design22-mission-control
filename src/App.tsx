@@ -6,6 +6,7 @@ import PackedLine from './PackedLine';
 import Metric from './Metric';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import MetricLinePair from './MetricLinePair';
 
 export type numData = {
   time: number;
@@ -44,65 +45,7 @@ function App() {
     <Box width={1400}>
       <Grid container spacing={0} justifySelf='left'>
         <Grid item xs={9}>
-          <Box>
-            <Grid container spacing={0}>
-              <Grid item xs={2}>
-                <Box sx={{ mt: 8 }}>
-                  <Metric
-                    value={Math.round(alt[alt.length - 1].value)}
-                    unit='m'
-                    key={`k_${alt.length}`}
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={10}>
-                <PackedLine
-                  yunit={'Altiude (m)'}
-                  xunit={'Time (s)'}
-                  data={alt}
-                  key={`pc_${alt.length}`}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={0}>
-              <Grid item xs={2}>
-                <Box sx={{ mt: 8 }}>
-                  <Metric
-                    value={Math.round(vel[vel.length - 1].value)}
-                    unit='m/s'
-                    key={`k_${vel.length}`}
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={10}>
-                <PackedLine
-                  yunit={'Velocity (m/s)'}
-                  xunit={'Time (s)'}
-                  data={vel}
-                  key={`pc_${vel.length}`}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={0}>
-              <Grid item xs={2}>
-                <Box sx={{ mt: 8 }}>
-                  <Metric
-                    value={Math.round(acc[acc.length - 1].value)}
-                    unit='m/s/s'
-                    key={`k_${acc.length}`}
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={10}>
-                <PackedLine
-                  yunit={'Acceleration (m/s/s)'}
-                  xunit={'Time (s)'}
-                  data={acc}
-                  key={`pc_${acc.length}`}
-                />
-              </Grid>
-            </Grid>
-          </Box>
+          <MetricLinePair series={alt} seriesName={'Altitude'} seriesUnit={'m'} />
           <Button
             onClick={() => {
               addNew();

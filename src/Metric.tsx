@@ -8,10 +8,10 @@ type MetricProps = {
 export default function Metric(props: MetricProps) {
   const { value, unit } = props;
   return (
-    <Box display='flex' sx={{ pt: 3, pb: 3 }}>
+    <Box display='flex' width={320} sx={{ pt: 3, pb: 3, border: 1 }}>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <Box display='flex' justifyContent='flex-end' sx={{ fontSize: 60 }}>
+          <Box display='flex' justifyContent='flex-end' sx={{ fontSize: 50 }}>
             {value}
           </Box>
         </Grid>
