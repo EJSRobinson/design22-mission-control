@@ -42,7 +42,7 @@ export default function PackedLine(props: PackedLineProps) {
           <Line
             type='monotone'
             dataKey='value'
-            stroke='#8884d8'
+            stroke='#c31b1b'
             activeDot={{ r: 8 }}
             key={`l_${data.length}`}
             isAnimationActive={false}
