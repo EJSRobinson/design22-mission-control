@@ -21,7 +21,6 @@ type PackedLineProps = {
 };
 export default function PackedLine(props: PackedLineProps) {
   const { data, yunit, xunit } = props;
-  console.log(data.length);
   return (
     <>
       <ResponsiveContainer width={750} height={200} key={`rc_${data.length}`}>

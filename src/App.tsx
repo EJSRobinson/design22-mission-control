@@ -36,6 +36,19 @@ const flightStates = {
 
 const timestep = 500;
 
+type teleType = {
+  flight_state: number;
+  altitude: number;
+  velocity: number;
+  linear_acceleration: number;
+  angular_velocity: number;
+  temperature: number;
+  pitch: number;
+  roll: number;
+  yaw: number;
+  gps: string;
+};
+
 function App() {
   const defaultData: numData[] = [{ time: 0, value: 0 }];
   const [chartData, setChartData] = useState(defaultData);
@@ -45,7 +58,7 @@ function App() {
 
   const [value, setValue] = useState(0);
 
-  const [telemetry, setTelemetry] = useState({
+  const [telemetry, setTelemetry] = useState<teleType>({
     flight_state: 0, //int
     altitude: 0, //float
     velocity: 0, //float
@@ -94,6 +107,8 @@ function App() {
   //   ]);
   // }, timestep);
 
+  let placeholder = ' ';
+
   return (
     <Box width={1400} justifyContent='left'>
       <Grid container spacing={0}>
@@ -114,16 +129,37 @@ function App() {
           </Button>
         </Grid>
         <Grid item xs={3}>
-          <Box display='flex' width={320} justifyContent='left' sx={{ mb: 2, fontSize: 20 }}>
-            {`Flight State: ${flightStates[telemetry.flight_state]}`}
+          <Box display='flex' width={320} justifyContent='center' sx={{ mb: 2, fontSize: 20 }}>
+            {`Flight State: TEST`} <b>{`${flightStates[telemetry.flight_state]}`}</b>
           </Box>
-
-          <Metric value={telemetry.temperature} unit='°C' />
-          <Box>
+          <Box sx={{ m: 1, border: 1, borderRadius: 1, borderColor: '#BBB' }}>
+            <Box display='flex' justifyContent='center' sx={{ p: 1, mb: 1, mt: 1, fontSize: 30 }}>
+              {'GPS'}
+            </Box>
             <Metric value={0} unit='° Lat' />
             <Metric value={0} unit='° Long' />
           </Box>
-          <CadViewer />
+          <Box sx={{ m: 1, border: 1, borderRadius: 1, borderColor: '#BBB' }}>
+            <Box display='flex' justifyContent='center' sx={{ p: 1, mb: 1, mt: 1, fontSize: 30 }}>
+              {'Roll Rate'}
+            </Box>
+            <Metric value={0} unit=' Rad/s' />
+          </Box>
+          <Box sx={{ m: 1, border: 1, borderRadius: 1, borderColor: '#BBB' }}>
+            <Box display='flex' justifyContent='center' sx={{ p: 1, mb: 1, mt: 1, fontSize: 30 }}>
+              {'Air Temperature'}
+            </Box>
+            <Metric value={telemetry.temperature} unit='° C' />
+          </Box>
+          <Box
+            justifyContent='center'
+            sx={{ m: 1, border: 1, borderRadius: 1, borderColor: '#BBB' }}
+          >
+            <Box display='flex' justifyContent='center' sx={{ p: 1, mb: 1, mt: 1, fontSize: 30 }}>
+              {'Orientation'}
+            </Box>
+            <CadViewer />
+          </Box>
         </Grid>
       </Grid>
     </Box>
