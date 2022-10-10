@@ -130,7 +130,7 @@ function App() {
         </Grid>
         <Grid item xs={3}>
           <Box display='flex' width={320} justifyContent='center' sx={{ mb: 2, fontSize: 20 }}>
-            {`Flight State: TEST`} <b>{`${flightStates[telemetry.flight_state]}`}</b>
+            {`Flight State: ${flightStates[telemetry.flight_state]}`}
           </Box>
           <Box sx={{ m: 1, border: 1, borderRadius: 1, borderColor: '#BBB' }}>
             <Box display='flex' justifyContent='center' sx={{ p: 1, mb: 1, mt: 1, fontSize: 30 }}>

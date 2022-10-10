@@ -1,7 +1,11 @@
 import { Serial } from 'raspi-serial';
 class interfaceSingleton {
+  serial = new Serial({
+    baudRate: 9600,
+    portId: '/dev/ttyS0',
+  });
   constructor() {
-    serial.open(() => {
+    this.serial.open(() => {
       serial.on('data', (data) => {
         for (let i = 0; i < data.length; i++) {
           updateCheckBuffer(data[i]);
@@ -15,10 +19,6 @@ class interfaceSingleton {
       });
     });
   }
-  serial = new Serial({
-    baudRate: 9600,
-    portId: '/dev/ttyS0',
-  });
 
   checkBuffer = [0, 0];
   endMarker = [0x3d, 0x3d];
@@ -42,7 +42,7 @@ class interfaceSingleton {
     gps: '', //string
   };
 
-  telemetry = JSON.parse(JSON.stringify(telemetryBase));
+  telemetry = JSON.parse(JSON.stringify(this.telemetryBase));
 
   getTelemetry() {
     return this.telemetry;
@@ -130,7 +130,7 @@ class interfaceSingleton {
     this.telemetry.roll = this.to_int(this.transData.slice(22, 24));
     this.telemetry.yaw = this.to_int(this.transData.slice(24, 26));
     this.telemetry.gps = this.to_string(this.transData.slice(26, 36));
-    this.console.log(this.telemetry);
+    // console.log(this.telemetry);
     this.transData = [];
     this.telemetry = JSON.parse(JSON.stringify(this.telemetryBase));
   }
