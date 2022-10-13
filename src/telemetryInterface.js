@@ -1,56 +1,50 @@
 import { Serial } from 'raspi-serial';
 class interfaceSingleton {
-  serial = new Serial({
-    baudRate: 9600,
-    portId: '/dev/ttyS0',
-  });
   constructor() {
+    this.serial = new Serial({
+      baudRate: 9600,
+      portId: '/dev/ttyS0',
+    });
     this.serial.open(() => {
-      serial.on('data', (data) => {
+      this.serial.on('data', (data) => {
         for (let i = 0; i < data.length; i++) {
-          updateCheckBuffer(data[i]);
-          if (!transActive) {
-            checkStart();
+          this.updateCheckBuffer(data[i]);
+          if (!this.transActive) {
+            this.checkStart();
           } else {
-            transData.push(data[i]);
-            checkEnd();
+            this.transData.push(data[i]);
+            this.checkEnd();
           }
         }
       });
     });
+    this.checkBuffer = [0, 0];
+    this.endMarker = [0x3d, 0x3d];
+    this.startMarker = [0x3c, 0x3c];
+    this.transActive = false;
+    this.sendLength = 34;
+    this.expected = this.sendLength - 6;
+    this.transData = [];
+    this.transStartTime = 0;
+
+    this.telemetryBase = {
+      flight_state: 0, //int
+      altitude: 0, //float
+      velocity: 0, //float
+      linear_acceleration: 0, //float
+      angular_velocity: 0, //float
+      temperature: 0, //int
+      pitch: 0, //int
+      roll: 0, //int
+      yaw: 0, //int
+      gps: '', //string
+    };
+
+    this.telemetry = JSON.parse(JSON.stringify(this.telemetryBase));
   }
-
-  checkBuffer = [0, 0];
-  endMarker = [0x3d, 0x3d];
-  startMarker = [0x3c, 0x3c];
-  transActive = false;
-  sendLength = 34;
-  expected = sendLength - 6;
-  transData = [];
-  transStartTime = 0;
-
-  telemetryBase = {
-    flight_state: 0, //int
-    altitude: 0, //float
-    velocity: 0, //float
-    linear_acceleration: 0, //float
-    angular_velocity: 0, //float
-    temperature: 0, //int
-    pitch: 0, //int
-    roll: 0, //int
-    yaw: 0, //int
-    gps: '', //string
-  };
-
-  telemetry = JSON.parse(JSON.stringify(this.telemetryBase));
 
   getTelemetry() {
     return this.telemetry;
-  }
-
-  to_string(data) {
-    let utf8Encode = new TextEncoder();
-    return utf8Encode.decode(data);
   }
 
   to_Float(data) {
@@ -129,7 +123,7 @@ class interfaceSingleton {
     this.telemetry.pitch = this.to_int(this.transData.slice(20, 22));
     this.telemetry.roll = this.to_int(this.transData.slice(22, 24));
     this.telemetry.yaw = this.to_int(this.transData.slice(24, 26));
-    this.telemetry.gps = this.to_string(this.transData.slice(26, 36));
+    // this.telemetry.gps = this.to_string(this.transData.slice(26, 36));
     // console.log(this.telemetry);
     this.transData = [];
     this.telemetry = JSON.parse(JSON.stringify(this.telemetryBase));
@@ -140,9 +134,9 @@ export default class telemetryInterface {
     throw new Error('Use Singleton.getInstance()');
   }
   static getInstance() {
-    if (!Singleton.instance) {
-      Singleton.instance = new interfaceSingleton();
+    if (!this.Singleton) {
+      this.Singleton = new interfaceSingleton();
     }
-    return Singleton.instance;
+    return this.Singleton;
   }
 }

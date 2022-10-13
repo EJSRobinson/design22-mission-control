@@ -81,31 +81,31 @@ function App() {
     setValue(value + 1);
   }
 
-  // const connection = telemetryInterface.getInstance();
-  // useInterval(() => {
-  //   setTelemetry(connection.getTelemetry());
-  //   setAltiudeSeries([
-  //     ...altitudeSeries,
-  //     {
-  //       time: altitudeSeries[altitudeSeries.length - 1].time + timestep / 1000,
-  //       value: telemetry.altitude,
-  //     },
-  //   ]);
-  //   setVelocitySeries([
-  //     ...velocitySeries,
-  //     {
-  //       time: velocitySeries[velocitySeries.length - 1].time + timestep / 1000,
-  //       value: telemetry.velocity,
-  //     },
-  //   ]);
-  //   setAccelerationSeries([
-  //     ...accelerationSeries,
-  //     {
-  //       time: accelerationSeries[accelerationSeries.length - 1].time + timestep / 1000,
-  //       value: telemetry.linear_acceleration,
-  //     },
-  //   ]);
-  // }, timestep);
+  const connection = telemetryInterface.getInstance();
+  useInterval(() => {
+    setTelemetry(connection.getTelemetry());
+    setAltiudeSeries([
+      ...altitudeSeries,
+      {
+        time: altitudeSeries[altitudeSeries.length - 1].time + timestep / 1000,
+        value: telemetry.altitude,
+      },
+    ]);
+    setVelocitySeries([
+      ...velocitySeries,
+      {
+        time: velocitySeries[velocitySeries.length - 1].time + timestep / 1000,
+        value: telemetry.velocity,
+      },
+    ]);
+    setAccelerationSeries([
+      ...accelerationSeries,
+      {
+        time: accelerationSeries[accelerationSeries.length - 1].time + timestep / 1000,
+        value: telemetry.linear_acceleration,
+      },
+    ]);
+  }, timestep);
 
   let placeholder = ' ';
 
@@ -134,16 +134,9 @@ function App() {
           </Box>
           <Box sx={{ m: 1, border: 1, borderRadius: 1, borderColor: '#BBB' }}>
             <Box display='flex' justifyContent='center' sx={{ p: 1, mb: 1, mt: 1, fontSize: 30 }}>
-              {'GPS'}
-            </Box>
-            <Metric value={0} unit='° Lat' />
-            <Metric value={0} unit='° Long' />
-          </Box>
-          <Box sx={{ m: 1, border: 1, borderRadius: 1, borderColor: '#BBB' }}>
-            <Box display='flex' justifyContent='center' sx={{ p: 1, mb: 1, mt: 1, fontSize: 30 }}>
               {'Roll Rate'}
             </Box>
-            <Metric value={0} unit=' Rad/s' />
+            <Metric value={telemetry.angular_velocity} unit=' Rad/s' />
           </Box>
           <Box sx={{ m: 1, border: 1, borderRadius: 1, borderColor: '#BBB' }}>
             <Box display='flex' justifyContent='center' sx={{ p: 1, mb: 1, mt: 1, fontSize: 30 }}>
