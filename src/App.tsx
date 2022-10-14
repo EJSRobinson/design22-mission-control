@@ -8,8 +8,8 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import MetricLinePair from './MetricLinePair';
 import CadViewer from './CadViewer';
-import telemetryInterface from './telemetryInterface';
 import { useInterval } from 'usehooks-ts';
+import { getTele } from './fetcher.js';
 
 export type numData = {
   time: number;
@@ -49,8 +49,6 @@ type teleType = {
   gps: string;
 };
 
-const connection = telemetryInterface.getInstance();
-
 function App() {
   const defaultData: numData[] = [{ time: 0, value: 0 }];
   const [chartData, setChartData] = useState(defaultData);
@@ -74,7 +72,7 @@ function App() {
   });
 
   useInterval(() => {
-    setTelemetry(connection.getTelemetry());
+    setTelemetry(getTele());
     if (telemetry.flight_state !== 0) {
       setAltiudeSeries([
         ...altitudeSeries,
