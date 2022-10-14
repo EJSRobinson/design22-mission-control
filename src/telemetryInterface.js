@@ -80,13 +80,11 @@ class interfaceSingleton {
     if (this.arraysEqual(this.checkBuffer, this.startMarker)) {
       this.transStartTime = Date.now();
       this.transActive = true;
-      console.log('Transmission started');
     }
   }
 
   checkEnd() {
     if (this.transData.length === this.expected) {
-      console.log(`Transmission Finished in ${Date.now() - this.transStartTime}ms`);
       this.transActive = false;
       if (
         this.arraysEqual(
@@ -97,7 +95,6 @@ class interfaceSingleton {
         this.cleanResult();
         this.populateTelemetry();
       } else {
-        console.log('Transmission Error');
         this.transData = [];
       }
     }
@@ -111,6 +108,13 @@ class interfaceSingleton {
     this.transData = tempResult;
   }
 
+  correctAngle(a) {
+    if (a > 360) {
+      a = a - 2 ** 16;
+    }
+    return a;
+  }
+
   populateTelemetry() {
     // Convert buffer into data structure
 
@@ -120,13 +124,12 @@ class interfaceSingleton {
     this.telemetry.linear_acceleration = this.to_Float(this.transData.slice(10, 14));
     this.telemetry.angular_velocity = this.to_Float(this.transData.slice(14, 18));
     this.telemetry.temperature = this.to_int(this.transData.slice(18, 20));
-    this.telemetry.pitch = this.to_int(this.transData.slice(20, 22));
-    this.telemetry.roll = this.to_int(this.transData.slice(22, 24));
-    this.telemetry.yaw = this.to_int(this.transData.slice(24, 26));
+    this.telemetry.pitch = this.correctAngle(this.to_int(this.transData.slice(20, 22)));
+    this.telemetry.roll = this.correctAngle(this.to_int(this.transData.slice(22, 24)));
+    this.telemetry.yaw = this.correctAngle(this.to_int(this.transData.slice(24, 26)));
     // this.telemetry.gps = this.to_string(this.transData.slice(26, 36));
     // console.log(this.telemetry);
     this.transData = [];
-    this.telemetry = JSON.parse(JSON.stringify(this.telemetryBase));
   }
 }
 export default class telemetryInterface {

@@ -49,6 +49,8 @@ type teleType = {
   gps: string;
 };
 
+const connection = telemetryInterface.getInstance();
+
 function App() {
   const defaultData: numData[] = [{ time: 0, value: 0 }];
   const [chartData, setChartData] = useState(defaultData);
@@ -71,43 +73,32 @@ function App() {
     gps: '', //string
   });
 
-  function addNew() {
-    const tempChartData = chartData;
-    tempChartData.push({
-      time: tempChartData[tempChartData.length - 1].time + 1,
-      value: Math.random() * 100,
-    });
-    setChartData(tempChartData);
-    setValue(value + 1);
-  }
-
-  const connection = telemetryInterface.getInstance();
   useInterval(() => {
     setTelemetry(connection.getTelemetry());
-    setAltiudeSeries([
-      ...altitudeSeries,
-      {
-        time: altitudeSeries[altitudeSeries.length - 1].time + timestep / 1000,
-        value: telemetry.altitude,
-      },
-    ]);
-    setVelocitySeries([
-      ...velocitySeries,
-      {
-        time: velocitySeries[velocitySeries.length - 1].time + timestep / 1000,
-        value: telemetry.velocity,
-      },
-    ]);
-    setAccelerationSeries([
-      ...accelerationSeries,
-      {
-        time: accelerationSeries[accelerationSeries.length - 1].time + timestep / 1000,
-        value: telemetry.linear_acceleration,
-      },
-    ]);
+    if (telemetry.flight_state !== 0) {
+      setAltiudeSeries([
+        ...altitudeSeries,
+        {
+          time: altitudeSeries[altitudeSeries.length - 1].time + timestep / 1000,
+          value: telemetry.altitude,
+        },
+      ]);
+      setVelocitySeries([
+        ...velocitySeries,
+        {
+          time: velocitySeries[velocitySeries.length - 1].time + timestep / 1000,
+          value: telemetry.velocity,
+        },
+      ]);
+      setAccelerationSeries([
+        ...accelerationSeries,
+        {
+          time: accelerationSeries[accelerationSeries.length - 1].time + timestep / 1000,
+          value: telemetry.linear_acceleration,
+        },
+      ]);
+    }
   }, timestep);
-
-  let placeholder = ' ';
 
   return (
     <Box width={1400} justifyContent='left'>
@@ -120,13 +111,6 @@ function App() {
             seriesName={'Acceleration'}
             seriesUnit={'m/s/s'}
           />
-          <Button
-            onClick={() => {
-              addNew();
-            }}
-          >
-            Add Data Point
-          </Button>
         </Grid>
         <Grid item xs={3}>
           <Box display='flex' width={320} justifyContent='center' sx={{ mb: 2, fontSize: 20 }}>
@@ -151,7 +135,9 @@ function App() {
             <Box display='flex' justifyContent='center' sx={{ p: 1, mb: 1, mt: 1, fontSize: 30 }}>
               {'Orientation'}
             </Box>
-            <CadViewer />
+            <Metric value={telemetry.pitch} unit='°' />
+            <Metric value={telemetry.roll} unit='°' />
+            <Metric value={telemetry.yaw} unit='°' />
           </Box>
         </Grid>
       </Grid>
